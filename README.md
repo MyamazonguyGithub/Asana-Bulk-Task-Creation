@@ -1,13 +1,16 @@
-# Duplicate Task with Error Handling
+# Bulk Asana Task Creation
 
 ## Overview
 
-This script automates the process of duplicating tasks with error handling. It interacts with various APIs to fetch and duplicate tasks.
+This script automates the process of creating tasks across boards in Asana. It interacts with HubSpot & Asana APIs to fetch information and create tasks.
 
 ## Features
 
-- Automates the duplication of tasks.
+- Automates the creation of tasks.
 - Handles errors during the duplication process.
+- Skips task creation if task already exists
+- Produces list of skipped/errored/created tasks
+- Allows toggle between HubSpot generated project GID list and manual entry GID list
 
 ## Installation
 
@@ -21,13 +24,61 @@ This script automates the process of duplicating tasks with error handling. It i
 
 ## Usage
 
-Run the script to start the task duplication process:
+1. Set use_gid_list to True
+
+  ```bash
+  use_gid_list = True
+   ```
+
+2. Input single GID in GID List to test
+
+  ```bash
+  process_gids = ['0000000000000000'] 
+   ```
+3. Run the script to test task creation on single GID:
 
 ```bash
-python duplicate-task-with-error-handling.py
+python asana-task-creation.py
 ```
 
-The script uses functions for specific API interactions and error handling tasks.
+4. Review Asana task created for errors
+5. Once test task is approved, set use_gid_list to False
+
+  ```bash
+  use_gid_list = False
+   ```
+
+6. Review terminal output for errors.
+
+  ```bash
+   Created Total: XX | GIDs: set('0000000000000000','0000000000000000','0000000000000000')
+   Errored Total: XX | GIDs: set('0000000000000000','0000000000000000','0000000000000000')
+   Skipped Total: XX
+   Combined Total: XXX
+   ```
+ 
+7. Use Error GID List to input new GID List, set use_gid_list to True and troubleshoot HubSpot data errors
+
+ ```bash
+  use_gid_list = True
+   ```
+  ```bash
+    process_gids = ['0000000000000000','0000000000000000','0000000000000000']
+   ```
+
+8. Once errored GIDs have processed succsefully, set use_gid_list to False and run again
+
+  ```bash
+  use_gid_list = False
+   ```
+9. Output should state all skipped due to existing task. This means all tasks have been created and task creation is complete.
+
+  ```bash
+   Created Total: 0 | GIDs: set()
+   Errored Total: 0 | GIDs: set()
+   Skipped Total: XXX
+   Combined Total: XXX
+   ```
 
 ## Contribution
 
